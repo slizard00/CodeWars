@@ -29,15 +29,23 @@ namespace CodeWars
             }
 
             long divider = 1;
-            for (int i = 2; i < gcd / 2; i++)
+            var allNumbersFlattened = newList.Cast<long>().ToArray().Distinct();
+
+            var seed = gcd;
+            var found = false;
+            var ii = 1;
+            do
             {
-                var allNumbersFlattened = newList.Cast<long>().ToArray();
-                if (allNumbersFlattened.All(x => (x % i) == 0))
+                if (allNumbersFlattened.All( x=> (x % seed) == 0 ))
                 {
-                    divider = i;
-                    break;
+                    found = true;
+                    divider = seed;
                 }
-            }
+                else
+                {
+                    seed = gcd / ++ii;
+                }
+            } while (!found && (seed > 0));
 
             if (divider != 1)
             {
