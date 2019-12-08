@@ -10,8 +10,8 @@ namespace CodeWars
             var denominators = new List<long>();
             for (int i = 0; i < lst.Length / 2; i++)
             {
-                var botton = lst[i, 1];
-                denominators.Add(botton);
+                var denominator = lst[i, 1];
+                denominators.Add(denominator);
             }
 
             long gcd = 1;
@@ -21,14 +21,13 @@ namespace CodeWars
             for (int i = 0; i < lst.Length / 2; i++)
             {
                 var denominator = lst[i, 1];
-                var v = gcd / denominator;
+                var temp = gcd / denominator;
                 var top = lst[i, 0];
-                var newtop = top * v;
-                newList[i, 0] = newtop;
+                newList[i, 0] = top * temp;
                 newList[i, 1] = gcd;
             }
 
-            long divider = 1;
+            long gcdReducer = 1;
             var allNumbersFlattened = newList.Cast<long>().ToArray().Distinct();
 
             var seed = gcd;
@@ -39,7 +38,7 @@ namespace CodeWars
                 if (allNumbersFlattened.All( x=> (x % seed) == 0 ))
                 {
                     found = true;
-                    divider = seed;
+                    gcdReducer = seed;
                 }
                 else
                 {
@@ -47,12 +46,12 @@ namespace CodeWars
                 }
             } while (!found && (seed > 0));
 
-            if (divider != 1)
+            if (gcdReducer != 1)
             {
                 for (int i = 0; i < newList.Length / 2; i++)
                 {
-                    newList[i, 0] = newList[i, 0] / divider;
-                    newList[i, 1] = newList[i, 1] / divider;
+                    newList[i, 0] = newList[i, 0] / gcdReducer;
+                    newList[i, 1] = newList[i, 1] / gcdReducer;
                 }
             }
 
