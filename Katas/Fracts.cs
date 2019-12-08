@@ -28,20 +28,24 @@ namespace CodeWars
                 newList[i, 1] = gcd;
             }
 
-            long log = 1;
+            long divider = 1;
             for (int i = 2; i < gcd / 2; i++)
             {
-                var eee = newList.Cast<long>().ToArray();
-                if (eee.All(x => (x % i) == 0))
+                var allNumbersFlattened = newList.Cast<long>().ToArray();
+                if (allNumbersFlattened.All(x => (x % i) == 0))
                 {
-                    log = i;
+                    divider = i;
                     break;
                 }
             }
-            for (int i = 0; i < newList.Length / 2; i++)
+
+            if (divider != 1)
             {
-                newList[i, 0] = newList[i, 0] / log;
-                newList[i, 1] = newList[i, 1] / log;
+                for (int i = 0; i < newList.Length / 2; i++)
+                {
+                    newList[i, 0] = newList[i, 0] / divider;
+                    newList[i, 1] = newList[i, 1] / divider;
+                }
             }
 
             var output = string.Empty;
