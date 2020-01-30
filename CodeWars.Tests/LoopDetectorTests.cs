@@ -32,5 +32,12 @@ namespace CodeWars.Tests
             var n1 = LoopDetector.createChain(3904, 1087);
             Assert.AreEqual(1087, Kata.getLoopSize(n1));
         }
+
+        [Test]
+        public void RandomLongChainNodesWithLoopSize103387()
+        {
+            var n1 = LoopDetector.createChain(3903004, 2103387);
+            Assert.AreEqual(2103387, Kata.getLoopSize(n1));
+        }
     }
 }

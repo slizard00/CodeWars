@@ -1,36 +1,107 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
+﻿using System.Collections.Generic;
+using System.Runtime.CompilerServices;
 
 public class Kata
 {
-    public static int getLoopSize(LoopDetector.Node startNode)
+    //public static int getLoopSize(LoopDetector.Node startNode)
+    //{
+    //    var hash = new HashSet<LoopDetector.Node> { startNode };
+
+    //    var currentNode = startNode.next;
+    //    var duplicateFound = false;
+    //    do
+    //    {
+    //        if (hash.Contains(currentNode))
+    //            duplicateFound = true;
+    //        else
+    //        {
+    //            hash.Add(currentNode);
+    //            currentNode = currentNode.next;
+    //        }
+    //    } while (!duplicateFound);
+
+
+    //    var found = false;
+    //    var startOfLoopNode = currentNode;
+    //    var loopSize = hash.Count;
+    //    currentNode = startNode;
+    //    do
+    //    {
+    //        if (currentNode == startOfLoopNode)
+    //            found = true;
+    //        else
+    //        {
+    //            loopSize--;
+    //            currentNode = currentNode.next;
+    //        }
+
+    //    } while (!found);
+
+    //    return loopSize;
+    //}
+
+    public static int getLoopSize22(LoopDetector.Node startNode)
     {
-        var list = new List<LoopDetector.Node> { startNode }; 
+        var hash = new HashSet<LoopDetector.Node> { startNode };
         var currentNode = startNode.next;
         var duplicateFound = false;
         do
         {
-            if (list.Contains(currentNode))
+            if (hash.Contains(currentNode))
                 duplicateFound = true;
             else
             {
-                list.Add(currentNode);
+                hash.Add(currentNode);
                 currentNode = currentNode.next;
-            }        
+            }
         } while (!duplicateFound);
 
-        var lengthOfTail = list.Count;
-        foreach (var item in list)
-        {
-            if (item != currentNode)
-                lengthOfTail--;
-            else
-                break;
-        }
 
-        return lengthOfTail;
+        var found = false;
+        var startOfLoopNode = currentNode;
+        var loopSize = hash.Count;
+        currentNode = startNode;
+        do
+        {
+            if (currentNode == startOfLoopNode)
+                found = true;
+            else
+            {
+                loopSize--;
+                currentNode = currentNode.next;
+            }
+
+        } while (!found);
+
+        return loopSize;
+    }
+
+
+    public static int getLoopSize(LoopDetector.Node startNode)
+    {
+        var conditionalWeakTable = new ConditionalWeakTable<LoopDetector.Node, IndexedNode>();   
+        var currentNode = startNode.next;
+        var currentKey = 0;
+
+        do
+        {
+            if (conditionalWeakTable.TryGetValue(currentNode, out IndexedNode b))
+            {
+                return currentKey - b.Index + 1;
+            }
+            else
+            {
+                currentKey++;
+                conditionalWeakTable.Add(currentNode, new IndexedNode() { Index = currentKey, Node = currentNode });
+                currentNode = currentNode.next;
+            }
+        } while (true);
+    }
+
+    public class IndexedNode
+    {
+        public int Index;
+        public LoopDetector.Node Node;
     }
 }
 
