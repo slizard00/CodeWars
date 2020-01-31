@@ -77,9 +77,25 @@ public class Kata
     }
 
 
+    public static int getLoopSize_dictionary(LoopDetector.Node startNode)
+    {
+        var dictionary = new Dictionary<LoopDetector.Node, int>();   
+        var currentNode = startNode.next;
+        var currentIndex = 0;
+
+        do
+        {
+            if (dictionary.TryGetValue(currentNode, out int index))
+                return currentIndex - index;
+            else
+                dictionary.Add(currentNode, currentIndex++);
+            currentNode = currentNode.next;
+        } while (true);
+    }
+
     public static int getLoopSize(LoopDetector.Node startNode)
     {
-        var conditionalWeakTable = new ConditionalWeakTable<LoopDetector.Node, IndexedNode>();   
+        var conditionalWeakTable = new ConditionalWeakTable<LoopDetector.Node, IndexedNode>();
         var currentNode = startNode.next;
         var currentKey = 0;
 
@@ -97,7 +113,6 @@ public class Kata
             }
         } while (true);
     }
-
     public class IndexedNode
     {
         public int Index;
